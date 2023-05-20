@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,168 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model challenge_participants {
+  id           Int         @id @default(autoincrement())
+  challenge_id Int?
+  user_id      Int?
+  created_at   DateTime?   @db.Timestamp(6)
+  updated_at   DateTime?   @db.Timestamp(6)
+  challenges   challenges? @relation(fields: [challenge_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users        users?      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model challenges {
+  id                     Int                      @id @default(autoincrement())
+  challenge_name         String?                  @db.VarChar
+  challenge_description  String?                  @db.VarChar
+  challenge_image        String?                  @db.VarChar
+  challenge_start_date   DateTime?                @db.Date
+  challenge_end_date     DateTime?                @db.Date
+  created_at             DateTime?                @db.Timestamp(6)
+  updated_at             DateTime?                @db.Timestamp(6)
+  challenge_participants challenge_participants[]
+}
+
+model comments {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  drawing_id   Int?
+  comment_text String?   @db.VarChar
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+  drawings     drawings? @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model drawings {
+  id            Int        @id @default(autoincrement())
+  user_id       Int?
+  description   String?    @db.VarChar
+  drawing_image String?    @db.VarChar
+  created_at    DateTime?  @db.Timestamp(6)
+  updated_at    DateTime?  @db.Timestamp(6)
+  comments      comments[]
+  users         users?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  likes         likes[]
+}
+
+model event_participants {
+  id         Int       @id @default(autoincrement())
+  event_id   Int?
+  user_id    Int?
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  events     events?   @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model events {
+  id                 Int                  @id @default(autoincrement())
+  event_name         String?              @db.VarChar
+  event_description  String?              @db.VarChar
+  event_image        String?              @db.VarChar
+  event_start_date   DateTime?            @db.Date
+  event_end_date     DateTime?            @db.Date
+  created_at         DateTime?            @db.Timestamp(6)
+  updated_at         DateTime?            @db.Timestamp(6)
+  event_participants event_participants[]
+}
+
+model followers {
+  id                                      Int       @id @default(autoincrement())
+  follower_user_id                        Int?
+  followed_user_id                        Int?
+  created_at                              DateTime? @db.Timestamp(6)
+  updated_at                              DateTime? @db.Timestamp(6)
+  users_followers_followed_user_idTousers users?    @relation("followers_followed_user_idTousers", fields: [followed_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_followers_follower_user_idTousers users?    @relation("followers_follower_user_idTousers", fields: [follower_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model group_members {
+  id         Int       @id @default(autoincrement())
+  group_id   Int?
+  user_id    Int?
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  groups     groups?   @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model groups {
+  id                Int             @id @default(autoincrement())
+  group_name        String?         @db.VarChar
+  group_description String?         @db.VarChar
+  group_image       String?         @db.VarChar
+  created_at        DateTime?       @db.Timestamp(6)
+  updated_at        DateTime?       @db.Timestamp(6)
+  group_members     group_members[]
+  messages          messages[]
+}
+
+model likes {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  drawing_id Int?
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  drawings   drawings? @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model messages {
+  id           Int       @id @default(autoincrement())
+  group_id     Int?
+  user_id      Int?
+  message_text String?   @db.VarChar
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+  groups       groups?   @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model notifications {
+  id                Int       @id @default(autoincrement())
+  user_id           Int?
+  notification_text String?   @db.VarChar
+  notification_read Boolean?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+  users             users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model saved_posts {
+  id         Int       @id @default(autoincrement())
+  token      String?   @db.VarChar
+  created_at DateTime? @db.Timestamp(6)
+  expired_at DateTime? @db.Timestamp(6)
+}
+
+model user_tokens {
+  id         Int       @id @default(autoincrement())
+  token      String?   @db.VarChar
+  created_at DateTime? @db.Timestamp(6)
+  expired_at DateTime? @db.Timestamp(6)
+}
+
+model users {
+  id                                          Int                      @id @default(autoincrement())
+  username                                    String?                  @db.VarChar
+  email                                       String?                  @db.VarChar @unique
+  password                                    String?                  @db.VarChar
+  profile_image                               String?                  @db.VarChar
+  cover_image                                 String?                  @db.VarChar
+  created_at                                  DateTime?                @db.Timestamp(6)
+  updated_at                                  DateTime?                @db.Timestamp(6)
+  challenge_participants                      challenge_participants[]
+  comments                                    comments[]
+  drawings                                    drawings[]
+  event_participants                          event_participants[]
+  followers_followers_followed_user_idTousers followers[]              @relation("followers_followed_user_idTousers")
+  followers_followers_follower_user_idTousers followers[]              @relation("followers_follower_user_idTousers")
+  group_members                               group_members[]
+  likes                                       likes[]
+  messages                                    messages[]
+  notifications                               notifications[]
 }
