@@ -43,14 +43,16 @@ model comments {
 model drawings {
   id            Int        @id @default(autoincrement())
   user_id       Int
-  description   String    @db.VarChar
-  drawing_image String    @db.VarChar
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  description   String     @db.VarChar
+  drawing_image String     @db.VarChar
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
   comments      comments[]
-  users         users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users         users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   likes         likes[]
+  saved_posts   saved_posts[]
 }
+
 
 model event_participants {
   id         Int       @id @default(autoincrement())
@@ -137,11 +139,16 @@ model notifications {
 }
 
 model saved_posts {
-  id         Int       @id @default(autoincrement())
-  token      String   @db.VarChar
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id           Int       @id @default(autoincrement())
+  drawing_id   Int
+  user_id      Int
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  drawing      drawings  @relation(fields: [drawing_id], references: [id])
+  user         users     @relation(fields: [user_id], references: [id])
 }
+
 
 model user_tokens {
   id         Int       @id @default(autoincrement())
@@ -169,4 +176,5 @@ model users {
   likes                                       likes[]
   messages                                    messages[]
   notifications                               notifications[]
+   saved_posts   saved_posts[]
 }

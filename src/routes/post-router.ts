@@ -9,5 +9,6 @@ const postRouter = Router();
 
 postRouter.post('/upload/draw', multer(multerConfig).single('file'), postController.createPost);
 postRouter.get('/feed', postController.findAllDraws);
+postRouter.get('/:id/comments', postController.findAllComments);
 
 export default postRouter;

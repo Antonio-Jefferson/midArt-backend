@@ -17,15 +17,14 @@ const findAllDraws = async (): Promise<DrawingType[]> => {
       created_at: true,
       likes: {
         select: {
-          _count: true
+          id: true
         }
       },
       comments: {
         select: {
-          _count: true
+          id: true
         }
-      },
-      favorite_count: true
+      }
     }
   });
 
@@ -33,16 +32,54 @@ const findAllDraws = async (): Promise<DrawingType[]> => {
     id: drawing.id,
     user_id: drawing.user_id,
     username: drawing.users.username,
-    user_image: drawing.users.profile_image,
+    image_user: drawing.users.profile_image,
     description: drawing.description,
     drawing_image: drawing.drawing_image,
-    likes_count: drawing.likes_count._count,
-    comments_count: drawing.comments_count._count,
-    favorite_count: drawing.favorite_count,
+    likes_count: drawing.likes.length,
+    comments_count: drawing.comments.length,
     created_at: drawing.created_at.toISOString()
   }));
 };
 
+const findDrawById = async (drawId: number) => {
+  return await prisma.drawings.findFirst({
+    where: {
+      id: drawId
+    }
+  });
+};
+
+const findAllComments = async (drawId: number) => {
+  const comments = await prisma.comments.findMany({
+    where: {
+      drawing_id: drawId
+    },
+    include: {
+      users: {
+        select: {
+          id: true,
+          username: true,
+          profile_image: true
+        }
+      }
+    },
+    orderBy: {
+      created_at: 'asc'
+    }
+  });
+
+  return comments.map((comment) => ({
+    id: comment.id,
+    user_id: comment.user_id,
+    username: comment.users.username,
+    drawing_id: comment.drawing_id,
+    comment_text: comment.comment_text,
+    created_at: comment.created_at.toISOString()
+  }));
+};
+
 export default {
-  findAllDraws
+  findAllDraws,
+  findDrawById,
+  findAllComments
 };

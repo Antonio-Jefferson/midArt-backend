@@ -19,8 +19,18 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
 
 const findAllDraws = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const draws = drawService.findAllDraws();
+    const draws = await drawService.findAllDraws();
     res.send(draws);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const findAllComments = async (req: Request, res: Response, next: NextFunction) => {
+  const drawId = req.params.id;
+  try {
+    const comments = await drawService.findAllComments(parseInt(drawId));
+    res.send(comments);
   } catch (err) {
     next(err);
   }
@@ -28,5 +38,6 @@ const findAllDraws = async (req: Request, res: Response, next: NextFunction) => 
 
 export default {
   createPost,
-  findAllDraws
+  findAllDraws,
+  findAllComments
 };
