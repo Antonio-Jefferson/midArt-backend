@@ -8,34 +8,34 @@ datasource db {
 }
 
 model challenge_participants {
-  id           Int         @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   challenge_id Int
   user_id      Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
   challenges   challenges @relation(fields: [challenge_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users        users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model challenges {
   id                     Int                      @id @default(autoincrement())
-  challenge_name         String                  @db.VarChar
-  challenge_description  String                  @db.VarChar
-  challenge_image        String                 @db.VarChar
-  challenge_start_date   DateTime                @db.Date
-  challenge_end_date     DateTime                @db.Date
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  challenge_name         String                   @db.VarChar
+  challenge_description  String                   @db.VarChar
+  challenge_image        String                   @db.VarChar
+  challenge_start_date   DateTime                 @db.Date
+  challenge_end_date     DateTime                 @db.Date
+  created_at             DateTime                 @default(now())
+  updated_at             DateTime                 @updatedAt
   challenge_participants challenge_participants[]
 }
 
 model comments {
-  id           Int       @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   user_id      Int
   drawing_id   Int
   comment_text String   @db.VarChar
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
   drawings     drawings @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users        users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -53,9 +53,8 @@ model drawings {
   saved_posts   saved_posts[]
 }
 
-
 model event_participants {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   event_id   Int
   user_id    Int
   created_at DateTime @default(now())
@@ -66,28 +65,28 @@ model event_participants {
 
 model events {
   id                 Int                  @id @default(autoincrement())
-  event_name         String              @db.VarChar
-  event_description  String              @db.VarChar
-  event_image        String              @db.VarChar
-  event_start_date   DateTime            @db.Date
-  event_end_date     DateTime            @db.Date
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  event_name         String               @db.VarChar
+  event_description  String               @db.VarChar
+  event_image        String               @db.VarChar
+  event_start_date   DateTime             @db.Date
+  event_end_date     DateTime             @db.Date
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
   event_participants event_participants[]
 }
 
 model followers {
-  id                                      Int       @id @default(autoincrement())
+  id                                      Int      @id @default(autoincrement())
   follower_user_id                        Int
   followed_user_id                        Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at                              DateTime @default(now())
+  updated_at                              DateTime @updatedAt
   users_followers_followed_user_idTousers users    @relation("followers_followed_user_idTousers", fields: [followed_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users_followers_follower_user_idTousers users    @relation("followers_follower_user_idTousers", fields: [follower_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model group_members {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   group_id   Int
   user_id    Int
   created_at DateTime @default(now())
@@ -98,17 +97,17 @@ model group_members {
 
 model groups {
   id                Int             @id @default(autoincrement())
-  group_name        String         @db.VarChar
-  group_description String         @db.VarChar
-  group_image       String         @db.VarChar
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  group_name        String          @db.VarChar
+  group_description String          @db.VarChar
+  group_image       String          @db.VarChar
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
   group_members     group_members[]
   messages          messages[]
 }
 
 model likes {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   user_id    Int
   drawing_id Int
   created_at DateTime @default(now())
@@ -118,23 +117,23 @@ model likes {
 }
 
 model messages {
-  id           Int       @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   group_id     Int
   user_id      Int
   message_text String   @db.VarChar
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
   groups       groups   @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users        users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model notifications {
-  id                Int       @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   user_id           Int
   notification_text String   @db.VarChar
   notification_read Boolean
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
   users             users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -151,17 +150,17 @@ model saved_posts {
 
 
 model user_tokens {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   token      String   @db.VarChar
-  user_id     Int   
   created_at DateTime @default(now())
+  user_id    Int
 }
 
 model users {
   id                                          Int                      @id @default(autoincrement())
-  username                                    String                  @db.VarChar
-  email                                       String                  @db.VarChar @unique
-  password                                    String                  @db.VarChar
+  username                                    String                   @db.VarChar
+  email                                       String                   @unique @db.VarChar
+  password                                    String                   @db.VarChar
   profile_image                               String?                  @db.VarChar
   cover_image                                 String?                  @db.VarChar
   created_at                                  DateTime?                @default(now())
@@ -176,5 +175,5 @@ model users {
   likes                                       likes[]
   messages                                    messages[]
   notifications                               notifications[]
-   saved_posts   saved_posts[]
+  saved_posts                                saved_posts[]
 }

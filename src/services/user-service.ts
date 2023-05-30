@@ -8,12 +8,12 @@ import errors from '../erros';
 import sessionRepository from '../repositories/session-repository';
 import userRepository from '../repositories/user-repository';
 
-const createUser = async ({ name, email, password }: userProps) => {
+const createUser = async ({ username, email, password }: userProps) => {
   const existUser = await userRepository.findByUserEmail(email);
   if (existUser) throw errors.duplicatedError();
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  return await userRepository.createUser({ name, email, password: hashedPassword });
+  return await userRepository.createUser({ username, email, password: hashedPassword });
 };
 
 const signIn = async ({ email, password }: userPropsWithoutName) => {
@@ -27,7 +27,14 @@ const signIn = async ({ email, password }: userPropsWithoutName) => {
 
   const token = await createSession(existUser.id);
 
-  return token;
+  const infUser = {
+    userId: existUser.id,
+    username: existUser.username,
+    userImaage: existUser.profile_image,
+    token
+  };
+
+  return infUser;
 };
 
 const validatePassword = async (isPassword: string, password: string) => {
