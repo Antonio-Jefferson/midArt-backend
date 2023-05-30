@@ -9,7 +9,7 @@ import userService from '../services/user-service';
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   console.log(chalk.cyan('POST /signup'));
   const { username, email, password } = req.body as z.infer<typeof userSchema.register>;
-  console.log({ username });
+  console.log({ username, email, password });
   try {
     await userService.createUser({ username, email, password });
     res.sendStatus(201);

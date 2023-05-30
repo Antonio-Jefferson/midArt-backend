@@ -6,7 +6,7 @@ import userRouter from './user-route';
 
 const routes = Router();
 
-routes.use('/user', userRouter);
+routes.use('/users', userRouter);
 routes.use('/auth', loginRouter);
 routes.use('/post', postRouter);
 
