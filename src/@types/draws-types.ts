@@ -7,5 +7,6 @@ export type DrawingType = {
   drawing_image: string;
   likes_count: number;
   comments_count: number;
+  saved_posts_count: number;
   created_at: string;
 };

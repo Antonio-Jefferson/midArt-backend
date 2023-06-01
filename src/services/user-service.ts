@@ -30,10 +30,9 @@ const signIn = async ({ email, password }: userPropsWithoutName) => {
   const infUser = {
     userId: existUser.id,
     username: existUser.username,
-    userImaage: existUser.profile_image,
+    userImage: existUser.profile_image,
     token
   };
-
   return infUser;
 };
 

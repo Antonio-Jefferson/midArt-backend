@@ -24,6 +24,11 @@ const findAllDraws = async (): Promise<DrawingType[]> => {
         select: {
           id: true
         }
+      },
+      saved_posts: {
+        select: {
+          id: true
+        }
       }
     }
   });
@@ -37,6 +42,7 @@ const findAllDraws = async (): Promise<DrawingType[]> => {
     drawing_image: drawing.drawing_image,
     likes_count: drawing.likes.length,
     comments_count: drawing.comments.length,
+    saved_posts_count: drawing.saved_posts.length,
     created_at: drawing.created_at.toISOString()
   }));
 };
