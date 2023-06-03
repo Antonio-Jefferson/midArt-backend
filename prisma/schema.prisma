@@ -108,8 +108,9 @@ model groups {
 
 model likes {
   id         Int      @id @default(autoincrement())
-  user_id    Int
-  drawing_id Int
+  user_id    Int      @unique
+  drawing_id Int      @unique
+  liked      Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   drawings   drawings @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

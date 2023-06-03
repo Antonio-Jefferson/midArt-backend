@@ -9,6 +9,25 @@ const likeDraw = async (userId: number, drawId: number) => {
   });
 };
 
+const findLikeByUserIdAndDrawId = async (userId: number, drawId: number) => {
+  return await prisma.likes.findFirst({
+    where: {
+      drawing_id: drawId,
+      user_id: userId
+    }
+  });
+};
+
+const disLikeDraw = async (id: number) => {
+  return prisma.likes.delete({
+    where: {
+      id
+    }
+  });
+};
+
 export default {
-  likeDraw
+  likeDraw,
+  disLikeDraw,
+  findLikeByUserIdAndDrawId
 };
