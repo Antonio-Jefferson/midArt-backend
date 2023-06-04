@@ -55,37 +55,7 @@ const findDrawById = async (drawId: number) => {
   });
 };
 
-const findAllComments = async (drawId: number) => {
-  const comments = await prisma.comments.findMany({
-    where: {
-      drawing_id: drawId
-    },
-    include: {
-      users: {
-        select: {
-          id: true,
-          username: true,
-          profile_image: true
-        }
-      }
-    },
-    orderBy: {
-      created_at: 'asc'
-    }
-  });
-
-  return comments.map((comment) => ({
-    id: comment.id,
-    user_id: comment.user_id,
-    username: comment.users.username,
-    drawing_id: comment.drawing_id,
-    comment_text: comment.comment_text,
-    created_at: comment.created_at.toISOString()
-  }));
-};
-
 export default {
   findAllDraws,
-  findDrawById,
-  findAllComments
+  findDrawById
 };

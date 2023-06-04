@@ -26,18 +26,7 @@ const findAllDraws = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const findAllComments = async (req: Request, res: Response, next: NextFunction) => {
-  const drawId = req.params.id;
-  try {
-    const comments = await drawService.findAllComments(parseInt(drawId));
-    res.send(comments);
-  } catch (err) {
-    next(err);
-  }
-};
-
 export default {
   createPost,
-  findAllDraws,
-  findAllComments
+  findAllDraws
 };
