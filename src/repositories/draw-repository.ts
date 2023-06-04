@@ -37,7 +37,7 @@ const findAllDraws = async (): Promise<DrawingType[]> => {
     id: drawing.id,
     user_id: drawing.user_id,
     username: drawing.users.username,
-    image_user: drawing.users.profile_image,
+    user_image: drawing.users.profile_image,
     description: drawing.description,
     drawing_image: drawing.drawing_image,
     likes_count: drawing.likes.length,

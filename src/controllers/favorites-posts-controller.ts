@@ -8,7 +8,7 @@ const savePost = async (req: Request, res: Response, next: NextFunction) => {
   console.log(chalk.cyan('POST /favorites/:drawId'));
   const userId = res.locals.userId;
   const drawId = parseInt(req.params.drawId);
-  console.log({ userId, drawId });
+
   try {
     await favoritesPostService.savePost(userId, drawId);
     res.status(200).send();
@@ -17,6 +17,20 @@ const savePost = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const deletFavorite = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('POST /favorites/delete/:drawId'));
+  const userId = res.locals.userId;
+  const drawId = parseInt(req.params.drawId);
+  console.log({ userId, drawId });
+  try {
+    await favoritesPostService.deletefavoritePost(userId, drawId);
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
-  savePost
+  savePost,
+  deletFavorite
 };
