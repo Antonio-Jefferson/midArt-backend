@@ -1,5 +1,5 @@
 import erros from '../erros';
-import commentRepository from '../repositories/comment-respository';
+import commentRepository from '../repositories/comment-repository';
 import drawRepository from '../repositories/draw-repository';
 
 const createComment = async (drawId: number, userId: number, text: string) => {

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import commentRouter from './comment-route';
+import favoritesPostRoute from './favorites-post-route';
 import likeRouter from './likes-route';
 import loginRouter from './login-route';
 import postRouter from './post-router';
@@ -13,5 +14,6 @@ routes.use('/auth', loginRouter);
 routes.use('/post', postRouter);
 routes.use('/likes', likeRouter);
 routes.use('/comment', commentRouter);
+routes.use('/favorites', favoritesPostRoute);
 
 export default routes;
