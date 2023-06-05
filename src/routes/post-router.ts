@@ -7,7 +7,7 @@ import postController from '../controllers/post-controller';
 
 const postRouter = Router();
 
-postRouter.post('/upload/draw', multer(multerConfig).single('file'), postController.createPost);
+postRouter.post('/upload/draw', multer(multerConfig).single('image'), postController.createPost);
 postRouter.get('/feed', postController.findAllDraws);
 
 export default postRouter;

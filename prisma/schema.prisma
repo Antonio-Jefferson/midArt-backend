@@ -41,14 +41,14 @@ model comments {
 }
 
 model drawings {
-  id            Int        @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   user_id       Int
-  description   String     @db.VarChar
-  drawing_image String     @db.VarChar
-  created_at    DateTime   @default(now())
-  updated_at    DateTime   @updatedAt
+  description   String        @db.VarChar
+  drawing_image String        @db.VarChar
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
   comments      comments[]
-  users         users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users         users         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   likes         likes[]
   saved_posts   saved_posts[]
 }
@@ -97,6 +97,7 @@ model group_members {
 
 model groups {
   id                Int             @id @default(autoincrement())
+  user_admin        Int
   group_name        String          @db.VarChar
   group_description String          @db.VarChar
   group_image       String          @db.VarChar
@@ -104,6 +105,7 @@ model groups {
   updated_at        DateTime        @updatedAt
   group_members     group_members[]
   messages          messages[]
+  users             users           @relation(fields: [user_admin], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model likes {
@@ -139,16 +141,15 @@ model notifications {
 }
 
 model saved_posts {
-  id           Int       @id @default(autoincrement())
-  drawing_id   Int
-  user_id      Int
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  drawing_id Int
+  user_id    Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  drawing      drawings  @relation(fields: [drawing_id], references: [id])
-  user         users     @relation(fields: [user_id], references: [id])
+  drawing drawings @relation(fields: [drawing_id], references: [id])
+  user    users    @relation(fields: [user_id], references: [id])
 }
-
 
 model user_tokens {
   id         Int      @id @default(autoincrement())
@@ -176,5 +177,6 @@ model users {
   likes                                       likes[]
   messages                                    messages[]
   notifications                               notifications[]
-  saved_posts                                saved_posts[]
+  saved_posts                                 saved_posts[]
+  groups                                      groups[]
 }
