@@ -43,9 +43,29 @@ const postMessage = async (data: messageData) => {
   });
 };
 
+const findAllMessagesGroup = async (groupId: number) => {
+  return await prisma.messages.findMany({
+    where: {
+      group_id: groupId
+    },
+    select: {
+      id: true,
+      message_text: true,
+      users: {
+        select: {
+          id: true,
+          username: true,
+          profile_image: true
+        }
+      }
+    }
+  });
+};
+
 export default {
   createGroup,
   findAllGoups,
   findByGroupId,
-  postMessage
+  postMessage,
+  findAllMessagesGroup
 };

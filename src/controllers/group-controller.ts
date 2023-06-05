@@ -42,8 +42,23 @@ const postMessage = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const findAllMessagesGroup = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /group/messages/:groupId'));
+  const userId = res.locals.userId;
+  const id = req.params.groupId;
+  const groupId = Number(id);
+
+  try {
+    const messages = await groupService.findAllMessagesGroup(userId, groupId);
+    res.status(200).send(messages);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createGroupe,
   findAllGroups,
-  postMessage
+  postMessage,
+  findAllMessagesGroup
 };

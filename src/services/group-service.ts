@@ -19,8 +19,17 @@ const postMessage = async (data: messageData) => {
   await groupRepository.postMessage(data);
 };
 
+const findAllMessagesGroup = async (userId: number, groupId: number) => {
+  const exitGroup = await groupRepository.findByGroupId(groupId);
+  if (!exitGroup) throw erros.notFoundError('group');
+
+  const messages = await groupRepository.findAllMessagesGroup(groupId);
+  return messages;
+};
+
 export default {
   createGroup,
   findAllGroups,
-  postMessage
+  postMessage,
+  findAllMessagesGroup
 };
