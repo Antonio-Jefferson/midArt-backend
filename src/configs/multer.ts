@@ -1,34 +1,44 @@
-import aws from 'aws-sdk';
+import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import crypto from 'crypto';
-import dotenv from 'dotenv';
-import multer from 'multer';
+import { config } from 'dotenv';
+import multer, { StorageEngine } from 'multer';
 import multerS3 from 'multer-s3';
-
-dotenv.config();
 
 import { uploadsDirectory } from './path';
 
-const storageTypes = {
+config();
+
+const s3Config: S3ClientConfig = {
+  region: `${process.env.AWS_REGION}`,
+  credentials: {
+    accessKeyId: `${process.env.AWS_ACCESS_KEY_ID}`,
+    secretAccessKey: `${process.env.AWS_SECRET_ACCESS_KEY}`
+  }
+};
+
+const s3Client = new S3Client(s3Config);
+
+const storageTypes: Record<string, StorageEngine> = {
   local: multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, uploadsDirectory);
     },
     filename: (req, file, cb) => {
       crypto.randomBytes(16, (err, hash) => {
-        //if (err) cb(err);
+        if (err) cb(err, '');
         const filename = `${hash.toString('hex')}-${file.originalname}`;
         cb(null, filename);
       });
     }
   }),
   s3: multerS3({
-    s3: new aws.S3(),
+    s3: s3Client,
     bucket: 'midart2',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: 'public-read',
     key: (req, file, cb) => {
       crypto.randomBytes(16, (err, hash) => {
-        if (err) cb(err);
+        if (err) cb(err, '');
         const filename = `${hash.toString('hex')}-${file.originalname}`;
         cb(null, filename);
       });
@@ -36,7 +46,7 @@ const storageTypes = {
   })
 };
 
-const multerConfig = {
+const multerConfig: multer.Options = {
   dest: uploadsDirectory,
   storage: storageTypes['local'],
   limits: {
@@ -48,7 +58,7 @@ const multerConfig = {
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type.'));
+      cb(new Error('Tipo de arquivo inválido.'));
     }
   }
 };

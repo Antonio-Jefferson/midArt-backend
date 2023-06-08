@@ -6,8 +6,13 @@ import drawService from '../services/draw-service';
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
   console.log(chalk.cyan('POST /post/upload/draw'));
+  const { description } = req.body;
 
-  console.log(req.body);
+  const post = {
+    description
+  };
+
+  console.log(post);
   console.log(req.file);
 
   try {
