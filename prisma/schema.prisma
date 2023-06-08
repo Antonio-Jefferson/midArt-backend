@@ -86,6 +86,20 @@ model events {
   created_at         DateTime             @default(now())
   updated_at         DateTime             @updatedAt
   event_participants event_participants[]
+  event_posts        event_posts[] 
+}
+
+model event_posts {
+  id            Int       @id @default(autoincrement())
+  event_id      Int
+  user_id       Int
+  description     String    @db.VarChar
+  drawing_image String        @db.VarChar
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  events        events    @relation(fields: [event_id], references: [id])
+  users         users     @relation(fields: [user_id], references: [id])
 }
 
 model followers {
@@ -192,5 +206,6 @@ model users {
   notifications                               notifications[]
   saved_posts                                 saved_posts[]
   groups                                      groups[]
-  challenge_posts                             challenge_posts[]  
+  challenge_posts                             challenge_posts[]
+  event_posts                                 event_posts[]  
 }
