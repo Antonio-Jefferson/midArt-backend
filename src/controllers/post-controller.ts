@@ -28,7 +28,7 @@ const findAllDraws = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 const findDrawingsFriends = async (req: Request, res: Response, next: NextFunction) => {
-  console.log(chalk.cyan('POST /drawings'));
+  console.log(chalk.cyan('GET /drawings/friends'));
   const userId = res.locals.userId;
   try {
     const drawings = await drawService.findDrawingsFriends(userId);
@@ -38,8 +38,18 @@ const findDrawingsFriends = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
+const findDrawingsChallenges = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const drawingsChallenges = await drawService.findDrawingsChallenges();
+    res.status(200).send(drawingsChallenges);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createPost,
   findAllDraws,
-  findDrawingsFriends
+  findDrawingsFriends,
+  findDrawingsChallenges
 };

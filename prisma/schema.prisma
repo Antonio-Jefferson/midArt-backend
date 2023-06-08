@@ -40,6 +40,9 @@ model challenge_posts {
   updated_at       DateTime @updatedAt
   challenges       challenges @relation(fields: [challenge_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users            users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  likes            likes[]
+  comments         comments[]
+  saved_posts      saved_posts[]
 }
 
 model comments {
@@ -51,6 +54,7 @@ model comments {
   updated_at   DateTime @updatedAt
   drawings     drawings @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users        users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  challenge_posts challenge_posts[]
 }
 
 model drawings {
@@ -144,6 +148,7 @@ model likes {
   updated_at DateTime @updatedAt
   drawings   drawings @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  challenge_posts challenge_posts[]
 }
 
 model messages {
@@ -176,6 +181,7 @@ model saved_posts {
 
   drawing drawings @relation(fields: [drawing_id], references: [id])
   user    users    @relation(fields: [user_id], references: [id])
+  challenge_posts challenge_posts[]
 }
 
 model user_tokens {

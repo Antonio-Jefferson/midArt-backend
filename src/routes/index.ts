@@ -13,7 +13,7 @@ const routes = Router();
 
 routes.use('/users', userRouter);
 routes.use('/auth', loginRouter);
-routes.use('/post', postRouter);
+routes.use('/drawings', postRouter);
 routes.use('/likes', likeRouter);
 routes.use('/comment', commentRouter);
 routes.use('/favorites', favoritesPostRoute);

@@ -109,8 +109,55 @@ const findDrawingsFriends = async (userId: number) => {
   }));
 };
 
+const findDrawingsChallenges = async () => {
+  const challengePosts = await prisma.challenge_posts.findMany({
+    select: {
+      id: true,
+      user_id: true,
+      description: true,
+      drawing_image: true,
+      created_at: true,
+      users: {
+        select: {
+          username: true,
+          profile_image: true
+        }
+      },
+      likes: {
+        select: {
+          id: true
+        }
+      },
+      comments: {
+        select: {
+          id: true
+        }
+      },
+      saved_posts: {
+        select: {
+          id: true
+        }
+      }
+    }
+  });
+
+  return challengePosts.map((post) => ({
+    id: post.id,
+    description: post.description,
+    drawing_image: post.drawing_image,
+    user_id: post.user_id,
+    username: post.users.username,
+    image_user: post.users.profile_image,
+    likes_count: post.likes.length,
+    comments_count: post.comments.length,
+    saved_posts_count: post.saved_posts.length,
+    created_at: post.created_at.toISOString()
+  }));
+};
+
 export default {
   findAllDraws,
   findDrawById,
-  findDrawingsFriends
+  findDrawingsFriends,
+  findDrawingsChallenges
 };
