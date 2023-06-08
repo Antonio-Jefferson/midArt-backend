@@ -18,6 +18,7 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const findAllDraws = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /drawings'));
   try {
     const draws = await drawService.findAllDraws();
     res.send(draws);
@@ -26,7 +27,19 @@ const findAllDraws = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
+const findDrawingsFriends = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('POST /drawings'));
+  const userId = res.locals.userId;
+  try {
+    const drawings = await drawService.findDrawingsFriends(userId);
+    res.status(200).send(drawings);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createPost,
-  findAllDraws
+  findAllDraws,
+  findDrawingsFriends
 };

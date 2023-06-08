@@ -5,6 +5,11 @@ const findAllDraws = async () => {
   return draws;
 };
 
+const findDrawingsFriends = async (userId: number) => {
+  return await drawRepository.findDrawingsFriends(userId);
+};
+
 export default {
-  findAllDraws
+  findAllDraws,
+  findDrawingsFriends
 };
