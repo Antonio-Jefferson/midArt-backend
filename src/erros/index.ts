@@ -12,6 +12,8 @@ const notFoundError = (resource: string) => createError(404, 'NotFoundError', `N
 
 const duplicatedError = () => createError(409, 'DuplicatedError', 'Duplicate resource found');
 
+const BadRequestError = () => createError(400, 'Bad Request', 'invalid request');
+
 const unprocessableEntityError = (message: string[]) =>
   createError(422, 'UnprocessableEntityError', `Invalid request data: ${message}`);
 
@@ -20,5 +22,6 @@ export default {
   notFoundError,
   invalidCredentialsError,
   duplicatedError,
-  unprocessableEntityError
+  unprocessableEntityError,
+  BadRequestError
 };
