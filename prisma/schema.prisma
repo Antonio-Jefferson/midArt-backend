@@ -27,6 +27,19 @@ model challenges {
   created_at             DateTime                 @default(now())
   updated_at             DateTime                 @updatedAt
   challenge_participants challenge_participants[]
+  challenge_posts        challenge_posts[]
+}
+
+model challenge_posts {
+  id               Int      @id @default(autoincrement())
+  challenge_id     Int
+  user_id          Int
+  description      String   @db.VarChar
+  drawing_image    String   @db.VarChar
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+  challenges       challenges @relation(fields: [challenge_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users            users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model comments {
@@ -179,4 +192,5 @@ model users {
   notifications                               notifications[]
   saved_posts                                 saved_posts[]
   groups                                      groups[]
+  challenge_posts                             challenge_posts[]  
 }
