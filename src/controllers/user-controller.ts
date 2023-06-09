@@ -38,8 +38,19 @@ const findUsersFriends = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
+const findSearchUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { username } = req.query as { username: string };
+  try {
+    const usersSearch = await userService.findSearchUser(username);
+    res.status(200).send(usersSearch);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createUser,
   signIn,
-  findUsersFriends
+  findUsersFriends,
+  findSearchUser
 };

@@ -44,8 +44,27 @@ const findUsersFriends = async (userId: number) => {
   return friends;
 };
 
+const findSearchUser = async (user: string) => {
+  const users = await prisma.users.findMany({
+    where: {
+      username: {
+        startsWith: user,
+        mode: 'insensitive'
+      }
+    },
+    select: {
+      id: true,
+      username: true,
+      profile_image: true
+    }
+  });
+
+  return users;
+};
+
 export default {
   createUser,
   findByUserEmail,
-  findUsersFriends
+  findUsersFriends,
+  findSearchUser
 };

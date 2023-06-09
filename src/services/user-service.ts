@@ -52,8 +52,13 @@ const findUsersFriends = async (userId: number) => {
   return await userRepository.findUsersFriends(userId);
 };
 
+const findSearchUser = async (username: string) => {
+  return await userRepository.findSearchUser(username);
+};
+
 export default {
   createUser,
   signIn,
-  findUsersFriends
+  findUsersFriends,
+  findSearchUser
 };
