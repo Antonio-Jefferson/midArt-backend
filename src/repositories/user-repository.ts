@@ -62,9 +62,28 @@ const findSearchUser = async (user: string) => {
   return users;
 };
 
+const findUsersFamous = async () => {
+  const users = await prisma.users.findMany({
+    orderBy: {
+      followers_followers_followed_user_idTousers: {
+        _count: 'desc'
+      }
+    },
+    select: {
+      id: true,
+      username: true,
+      profile_image: true
+    },
+    take: 10
+  });
+
+  return users;
+};
+
 export default {
   createUser,
   findByUserEmail,
   findUsersFriends,
-  findSearchUser
+  findSearchUser,
+  findUsersFamous
 };

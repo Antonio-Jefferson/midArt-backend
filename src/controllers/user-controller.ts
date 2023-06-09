@@ -48,9 +48,19 @@ const findSearchUser = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
+const findUsersFamous = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const usersFamous = await userService.findUsersFamous();
+    res.status(200).send(usersFamous);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createUser,
   signIn,
   findUsersFriends,
-  findSearchUser
+  findSearchUser,
+  findUsersFamous
 };

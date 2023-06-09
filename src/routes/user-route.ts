@@ -8,5 +8,6 @@ userRouter.post('/signup', userController.createUser);
 userRouter.post('/signin', userController.signIn);
 userRouter.get('/friends', tokenMiddleware, userController.findUsersFriends);
 userRouter.get('/search', tokenMiddleware, userController.findSearchUser);
+userRouter.get('/famous', userController.findUsersFamous);
 
 export default userRouter;

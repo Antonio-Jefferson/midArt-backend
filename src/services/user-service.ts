@@ -56,9 +56,14 @@ const findSearchUser = async (username: string) => {
   return await userRepository.findSearchUser(username);
 };
 
+const findUsersFamous = async () => {
+  return await userRepository.findUsersFamous();
+};
+
 export default {
   createUser,
   signIn,
   findUsersFriends,
-  findSearchUser
+  findSearchUser,
+  findUsersFamous
 };
