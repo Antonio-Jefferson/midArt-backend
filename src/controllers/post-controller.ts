@@ -44,9 +44,23 @@ const findDrawingsFriends = async (req: Request, res: Response, next: NextFuncti
 };
 
 const findDrawingsChallenges = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /drawings/challenges'));
   try {
     const drawingsChallenges = await drawService.findDrawingsChallenges();
     res.status(200).send(drawingsChallenges);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deletePost = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('DELETE /drawings/:drawId'));
+  const userId = res.locals.userId;
+  const id = req.params.drawId;
+  const drawId = parseInt(id);
+  try {
+    await drawService.deletePost(userId, drawId);
+    res.status(204).send();
   } catch (error) {
     next(error);
   }
@@ -56,5 +70,6 @@ export default {
   createPost,
   findAllDraws,
   findDrawingsFriends,
-  findDrawingsChallenges
+  findDrawingsChallenges,
+  deletePost
 };

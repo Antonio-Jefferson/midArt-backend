@@ -109,6 +109,14 @@ const findDrawingsFriends = async (userId: number) => {
   }));
 };
 
+const findDrawingByUserId = async (drawId: number) => {
+  return await prisma.drawings.findFirst({
+    where: {
+      id: drawId
+    }
+  });
+};
+
 const findDrawingsChallenges = async () => {
   const challengePosts = await prisma.challenge_posts.findMany({
     select: {
@@ -155,9 +163,19 @@ const findDrawingsChallenges = async () => {
   }));
 };
 
+const deletePost = async (drawId: number) => {
+  await prisma.drawings.delete({
+    where: {
+      id: drawId
+    }
+  });
+};
+
 export default {
   findAllDraws,
   findDrawById,
   findDrawingsFriends,
-  findDrawingsChallenges
+  findDrawingsChallenges,
+  findDrawingByUserId,
+  deletePost
 };

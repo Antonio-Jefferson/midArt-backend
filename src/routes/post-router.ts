@@ -12,5 +12,6 @@ postRouter.post('/upload/draw', multer(multerConfig).single('file'), postControl
 postRouter.get('/feed', postController.findAllDraws);
 postRouter.get('/friends', tokenMiddleware, postController.findDrawingsFriends);
 postRouter.get('/challenges', tokenMiddleware, postController.findDrawingsChallenges);
+postRouter.delete('/:drawId', tokenMiddleware, postController.deletePost);
 
 export default postRouter;

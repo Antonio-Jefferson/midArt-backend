@@ -17,8 +17,18 @@ const findDrawingsChallenges = async () => {
   return drawingsChallenges;
 };
 
+const deletePost = async (userId: number, drawId: number) => {
+  const draw = await drawRepository.findDrawingByUserId(drawId);
+  if (!draw) throw erros.notFoundError('drawing');
+
+  if (draw.user_id != userId) throw erros.BadRequestError();
+
+  await drawRepository.deletePost(drawId);
+};
+
 export default {
   findAllDraws,
   findDrawingsFriends,
-  findDrawingsChallenges
+  findDrawingsChallenges,
+  deletePost
 };
