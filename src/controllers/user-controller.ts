@@ -28,7 +28,18 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const findUsersFriends = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = res.locals.userId;
+  try {
+    const usersFriends = await userService.findUsersFriends(userId);
+    res.status(200).send(usersFriends);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createUser,
-  signIn
+  signIn,
+  findUsersFriends
 };

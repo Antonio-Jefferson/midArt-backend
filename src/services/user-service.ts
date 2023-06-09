@@ -48,7 +48,12 @@ const createSession = async (user_id: number) => {
   return token;
 };
 
+const findUsersFriends = async (userId: number) => {
+  return await userRepository.findUsersFriends(userId);
+};
+
 export default {
   createUser,
-  signIn
+  signIn,
+  findUsersFriends
 };

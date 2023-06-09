@@ -21,7 +21,31 @@ const findByUserEmail = async (email: string) => {
   });
 };
 
+const findUsersFriends = async (userId: number) => {
+  const usersFriends = await prisma.followers.findMany({
+    where: {
+      followed_user_id: userId
+    },
+    include: {
+      users_followers_follower_user_idTousers: {
+        select: {
+          username: true,
+          profile_image: true
+        }
+      }
+    }
+  });
+
+  const friends = usersFriends.map((user) => ({
+    name: user.users_followers_follower_user_idTousers.username,
+    image: user.users_followers_follower_user_idTousers.profile_image
+  }));
+
+  return friends;
+};
+
 export default {
   createUser,
-  findByUserEmail
+  findByUserEmail,
+  findUsersFriends
 };
