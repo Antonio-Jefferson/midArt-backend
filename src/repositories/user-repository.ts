@@ -80,10 +80,58 @@ const findUsersFamous = async () => {
   return users;
 };
 
+const findUserById = async (userId: number) => {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId
+    },
+    select: {
+      id: true,
+      username: true,
+      profile_image: true,
+      cover_image: true,
+      followers_followers_followed_user_idTousers: {
+        select: {
+          id: true
+        }
+      },
+      followers_followers_follower_user_idTousers: {
+        select: {
+          id: true
+        }
+      },
+      drawings: {
+        select: {
+          id: true
+        }
+      },
+      likes: {
+        select: {
+          id: true
+        }
+      }
+    }
+  });
+
+  const response = {
+    id: user?.id,
+    name: user?.username,
+    image: user?.profile_image,
+    cover_image: user?.cover_image,
+    followers_count: user?.followers_followers_followed_user_idTousers.length,
+    following_count: user?.followers_followers_follower_user_idTousers.length,
+    total_likes: user?.likes.length,
+    total_posts: user?.drawings.length
+  };
+
+  return response;
+};
+
 export default {
   createUser,
   findByUserEmail,
   findUsersFriends,
   findSearchUser,
-  findUsersFamous
+  findUsersFamous,
+  findUserById
 };

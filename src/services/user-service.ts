@@ -60,10 +60,16 @@ const findUsersFamous = async () => {
   return await userRepository.findUsersFamous();
 };
 
+const findUserById = async (userId: number) => {
+  const user = await userRepository.findUserById(userId);
+  return user;
+};
+
 export default {
   createUser,
   signIn,
   findUsersFriends,
   findSearchUser,
-  findUsersFamous
+  findUsersFamous,
+  findUserById
 };

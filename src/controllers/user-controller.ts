@@ -29,6 +29,7 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const findUsersFriends = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /users/friends'));
   const userId = res.locals.userId;
   try {
     const usersFriends = await userService.findUsersFriends(userId);
@@ -39,6 +40,7 @@ const findUsersFriends = async (req: Request, res: Response, next: NextFunction)
 };
 
 const findSearchUser = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /users/search'));
   const { username } = req.query as { username: string };
   try {
     const usersSearch = await userService.findSearchUser(username);
@@ -49,9 +51,22 @@ const findSearchUser = async (req: Request, res: Response, next: NextFunction) =
 };
 
 const findUsersFamous = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /users/famous'));
   try {
     const usersFamous = await userService.findUsersFamous();
     res.status(200).send(usersFamous);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const findUserById = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /users/:userId'));
+  const id = req.params.userId;
+  const userId = parseInt(id);
+  try {
+    const user = await userService.findUserById(userId);
+    res.status(200).send(user);
   } catch (error) {
     next(error);
   }
@@ -62,5 +77,6 @@ export default {
   signIn,
   findUsersFriends,
   findSearchUser,
-  findUsersFamous
+  findUsersFamous,
+  findUserById
 };
