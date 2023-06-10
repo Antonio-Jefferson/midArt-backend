@@ -12,5 +12,6 @@ groupRouter.get('/messages/:groupId', tokenMiddleware, groupController.findAllMe
 groupRouter.post('/members', tokenMiddleware, groupController.postMembers);
 groupRouter.get('/:groupId', tokenMiddleware, groupController.findGroupById);
 groupRouter.delete('/:groupId', tokenMiddleware, groupController.deleteGroup);
+groupRouter.delete('/exit', tokenMiddleware, groupController.exit);
 
 export default groupRouter;

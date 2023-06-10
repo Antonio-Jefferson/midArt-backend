@@ -123,6 +123,23 @@ const deleteGroup = async (groupId: number) => {
   });
 };
 
+const getGroupMemberById = async (userId: number, groupId: number) => {
+  return await prisma.group_members.findFirst({
+    where: {
+      user_id: userId,
+      group_id: groupId
+    }
+  });
+};
+
+const exit = async (id: number) => {
+  await prisma.group_members.delete({
+    where: {
+      id
+    }
+  });
+};
+
 export default {
   createGroup,
   findAllGoups,
@@ -131,5 +148,7 @@ export default {
   findAllMessagesGroup,
   postMembers,
   findGroupById,
-  deleteGroup
+  deleteGroup,
+  getGroupMemberById,
+  exit
 };

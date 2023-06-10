@@ -10,3 +10,7 @@ export type messageData = {
   groupId: number;
   message: string;
 };
+
+export type idGroupType = {
+  id: number;
+};

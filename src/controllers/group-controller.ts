@@ -91,6 +91,18 @@ const deleteGroup = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const exit = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('DELETE /group/exit'));
+  const userId = res.locals.userId;
+  const { groupId } = req.body;
+  try {
+    await groupService.exit(userId, groupId);
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createGroupe,
   findAllGroups,
@@ -98,5 +110,6 @@ export default {
   findAllMessagesGroup,
   postMembers,
   findGroupById,
-  deleteGroup
+  deleteGroup,
+  exit
 };
