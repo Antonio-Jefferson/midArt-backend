@@ -1,6 +1,7 @@
 import { groupData, messageData } from '../@types';
 import erros from '../erros';
 import groupRepository from '../repositories/group-repository';
+import userRepository from '../repositories/user-repository';
 
 const createGroup = async (data: groupData) => {
   await groupRepository.createGroup(data);
@@ -27,9 +28,28 @@ const findAllMessagesGroup = async (userId: number, groupId: number) => {
   return messages;
 };
 
+const postMembers = async (userId: number, groupId: number) => {
+  const existUser = await userRepository.findUserById(userId);
+  if (!existUser.id !== undefined) throw erros.notFoundError('user');
+
+  const existGroup = await groupRepository.findByGroupId(groupId);
+  if (!existGroup) throw erros.notFoundError('group');
+
+  await groupRepository.postMembers(userId, groupId);
+};
+
+const findGroupById = async (groupId: number) => {
+  const group = await groupRepository.findGroupById(groupId);
+  if (!group.id !== undefined) throw erros.notFoundError('group');
+
+  return group;
+};
+
 export default {
   createGroup,
   findAllGroups,
   postMessage,
-  findAllMessagesGroup
+  findAllMessagesGroup,
+  postMembers,
+  findGroupById
 };

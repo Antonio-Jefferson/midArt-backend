@@ -56,9 +56,31 @@ const findAllMessagesGroup = async (req: Request, res: Response, next: NextFunct
   }
 };
 
+const postMembers = async (req: Request, res: Response, next: NextFunction) => {
+  const { userId, groupId } = req.body;
+  try {
+    await groupService.postMembers(userId, groupId);
+    res.status(201).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
+const findGroupById = async (req: Request, res: Response, next: NextFunction) => {
+  const { groupId } = req.params;
+  try {
+    const group = await groupService.findGroupById(Number(groupId));
+    res.status(200).send(group);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createGroupe,
   findAllGroups,
   postMessage,
-  findAllMessagesGroup
+  findAllMessagesGroup,
+  postMembers,
+  findGroupById
 };
