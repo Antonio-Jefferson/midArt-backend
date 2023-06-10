@@ -61,6 +61,18 @@ const exit = async (userId: number, groupId: number) => {
   await groupRepository.exit(result?.id);
 };
 
+const deleteMemberGroup = async (userId: number, groupId: number, memberUserId: number) => {
+  const existGroup = await groupRepository.findByGroupId(groupId);
+  if (!existGroup) throw erros.notFoundError('group');
+
+  if (existGroup.user_admin !== userId) throw erros.BadRequestError();
+
+  const result = await groupRepository.getGroupMemberById(memberUserId, groupId);
+  if (!result) throw erros.notFoundError('member group');
+
+  await groupRepository.exit(result?.id);
+};
+
 export default {
   createGroup,
   findAllGroups,
@@ -69,5 +81,6 @@ export default {
   postMembers,
   findGroupById,
   deleteGroup,
-  exit
+  exit,
+  deleteMemberGroup
 };
