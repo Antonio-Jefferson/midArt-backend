@@ -29,6 +29,11 @@ const findByGroupId = async (id: number) => {
   return await prisma.groups.findUnique({
     where: {
       id
+    },
+    select: {
+      id: true,
+      user_admin: true,
+      group_name: true
     }
   });
 };
@@ -110,6 +115,14 @@ const findGroupById = async (groupId: number) => {
   return formattedGroup;
 };
 
+const deleteGroup = async (groupId: number) => {
+  await prisma.groups.delete({
+    where: {
+      id: groupId
+    }
+  });
+};
+
 export default {
   createGroup,
   findAllGoups,
@@ -117,5 +130,6 @@ export default {
   postMessage,
   findAllMessagesGroup,
   postMembers,
-  findGroupById
+  findGroupById,
+  deleteGroup
 };

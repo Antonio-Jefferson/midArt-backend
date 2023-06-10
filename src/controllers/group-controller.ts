@@ -57,6 +57,7 @@ const findAllMessagesGroup = async (req: Request, res: Response, next: NextFunct
 };
 
 const postMembers = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('POST /group/members'));
   const { userId, groupId } = req.body;
   try {
     await groupService.postMembers(userId, groupId);
@@ -67,10 +68,24 @@ const postMembers = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const findGroupById = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('GET /group/:groupId'));
   const { groupId } = req.params;
   try {
     const group = await groupService.findGroupById(Number(groupId));
     res.status(200).send(group);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteGroup = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('DELETE /group/:groupId'));
+  const userId = res.locals.userId;
+  const { groupId } = req.params;
+
+  try {
+    await groupService.deleteGroup(Number(groupId), userId);
+    res.status(204).send();
   } catch (error) {
     next(error);
   }
@@ -82,5 +97,6 @@ export default {
   postMessage,
   findAllMessagesGroup,
   postMembers,
-  findGroupById
+  findGroupById,
+  deleteGroup
 };
