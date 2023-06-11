@@ -1,0 +1,21 @@
+import notificationRepository from '../repositories/notification-repository';
+
+const gereneteData = (users: number[], groupId: number) => {
+  const notificationsData = users.map((user) => {
+    return {
+      user_id: user,
+      group_id: groupId
+    };
+  });
+
+  return notificationsData;
+};
+
+const postNotification = async (users: number[], groupId: number) => {
+  const resultData = await gereneteData(users, groupId);
+  await notificationRepository.postNotification(resultData);
+};
+
+export default {
+  postNotification
+};

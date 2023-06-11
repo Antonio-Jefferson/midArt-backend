@@ -2,7 +2,7 @@ import { groupData, messageData } from '../@types';
 import prisma from '../configs/database.connection';
 
 const createGroup = async (data: groupData) => {
-  await prisma.groups.create({
+  return await prisma.groups.create({
     data: {
       user_admin: data.userId,
       group_name: data.name,

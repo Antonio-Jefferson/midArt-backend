@@ -6,6 +6,7 @@ import followersRoute from './followers-route';
 import groupRouter from './group-route';
 import likeRouter from './likes-route';
 import loginRouter from './login-route';
+import notificationRouter from './notifications-route';
 import postRouter from './post-router';
 import userRouter from './user-route';
 
@@ -19,5 +20,6 @@ routes.use('/comment', commentRouter);
 routes.use('/favorites', favoritesPostRoute);
 routes.use('/group', groupRouter);
 routes.use('/followers', followersRoute);
+routes.use('/notifications', notificationRouter);
 
 export default routes;
