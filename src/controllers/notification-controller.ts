@@ -26,7 +26,19 @@ const findNotificationsByUser = async (req: Request, res: Response, next: NextFu
   }
 };
 
+const notificationRead = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(chalk.cyan('PUT /notification'));
+  const userId = res.locals.userId;
+  try {
+    await notificationService.notificationRead(userId);
+    res.status(200).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   postNotification,
-  findNotificationsByUser
+  findNotificationsByUser,
+  notificationRead
 };

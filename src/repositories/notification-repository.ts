@@ -15,7 +15,19 @@ const findNotificationsByUser = async (userId: number) => {
   });
 };
 
+const notificationRead = async (userId: number) => {
+  await prisma.notifications.updateMany({
+    where: {
+      user_id: userId
+    },
+    data: {
+      notification_read: true
+    }
+  });
+};
+
 export default {
   postNotification,
-  findNotificationsByUser
+  findNotificationsByUser,
+  notificationRead
 };
