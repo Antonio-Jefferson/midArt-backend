@@ -16,6 +16,11 @@ const postNotification = async (users: number[], groupId: number) => {
   await notificationRepository.postNotification(resultData);
 };
 
+const findNotificationsByUser = async (userId: number) => {
+  return await notificationRepository.findNotificationsByUser(userId);
+};
+
 export default {
-  postNotification
+  postNotification,
+  findNotificationsByUser
 };

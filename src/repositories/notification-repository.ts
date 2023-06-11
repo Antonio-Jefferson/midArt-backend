@@ -7,6 +7,15 @@ const postNotification = async (resultData: resultDataType) => {
   });
 };
 
+const findNotificationsByUser = async (userId: number) => {
+  return await prisma.notifications.findMany({
+    where: {
+      user_id: userId
+    }
+  });
+};
+
 export default {
-  postNotification
+  postNotification,
+  findNotificationsByUser
 };
