@@ -40,7 +40,7 @@ const postMembers = async (userId: number, groupId: number) => {
 
 const findGroupById = async (groupId: number) => {
   const group = await groupRepository.findGroupById(groupId);
-  if (!group.id !== undefined) throw erros.notFoundError('group');
+  if (group.id === undefined) throw erros.notFoundError('group');
 
   return group;
 };
