@@ -52,7 +52,7 @@ model comments {
   comment_text String   @db.VarChar
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
-  drawings     drawings @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  drawings     drawings @relation(fields: [drawing_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   users        users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   challenge_posts challenge_posts[]
 }
@@ -112,8 +112,8 @@ model followers {
   followed_user_id                        Int
   created_at                              DateTime @default(now())
   updated_at                              DateTime @updatedAt
-  users_followers_followed_user_idTousers users    @relation("followers_followed_user_idTousers", fields: [followed_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users_followers_follower_user_idTousers users    @relation("followers_follower_user_idTousers", fields: [follower_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_followers_followed_user_idTousers users    @relation("followers_followed_user_idTousers", fields: [followed_user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users_followers_follower_user_idTousers users    @relation("followers_follower_user_idTousers", fields: [follower_user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model group_members {
@@ -147,7 +147,7 @@ model likes {
   liked      Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  drawings   drawings @relation(fields: [drawing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  drawings   drawings @relation(fields: [drawing_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   challenge_posts challenge_posts[]
 }
@@ -181,7 +181,7 @@ model saved_posts {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  drawing drawings @relation(fields: [drawing_id], references: [id])
+  drawing drawings @relation(fields: [drawing_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   user    users    @relation(fields: [user_id], references: [id])
   challenge_posts challenge_posts[]
 }

@@ -8,8 +8,8 @@ import tokenMiddleware from '../middlewares/token.middleware';
 
 const postRouter = Router();
 
-postRouter.post('/upload/draw', multer(multerConfig).single('file'), postController.createPost);
-postRouter.get('/feed', postController.findAllDraws);
+postRouter.post('/upload/draw', tokenMiddleware, multer(multerConfig).single('file'), postController.createPost);
+postRouter.get('/feed', tokenMiddleware, postController.findAllDraws);
 postRouter.get('/friends', tokenMiddleware, postController.findDrawingsFriends);
 postRouter.get('/challenges', tokenMiddleware, postController.findDrawingsChallenges);
 postRouter.delete('/:drawId', tokenMiddleware, postController.deletePost);

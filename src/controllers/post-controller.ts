@@ -24,9 +24,11 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
 
 const findAllDraws = async (req: Request, res: Response, next: NextFunction) => {
   console.log(chalk.cyan('GET /drawings'));
+  const userId = res.locals.userId;
+  console.log(userId);
   try {
     const draws = await drawService.findAllDraws();
-    res.send(draws);
+    res.status(200).send(draws);
   } catch (err) {
     next(err);
   }
