@@ -16,7 +16,7 @@ routes.use('/users', userRouter);
 routes.use('/auth', loginRouter);
 routes.use('/drawings', postRouter);
 routes.use('/likes', likeRouter);
-routes.use('/comment', commentRouter);
+routes.use('/comments', commentRouter);
 routes.use('/favorites', favoritesPostRoute);
 routes.use('/group', groupRouter);
 routes.use('/followers', followersRoute);

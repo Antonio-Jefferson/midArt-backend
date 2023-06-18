@@ -4,6 +4,9 @@
   "description": "boilerplate node com typescript",
   "main": "build/server.cjs",
   "type": "module",
+  "engines": {
+    "node":"18"
+  },
   "scripts": {
     "start": "node build/server.cjs",
     "build": "prisma generate && tsup src --out-dir build",

@@ -5,6 +5,6 @@ import commentController from '../controllers/comment-controller';
 import tokenMiddleware from '../middlewares/token.middleware';
 
 commentRouter.post('/', tokenMiddleware, commentController.createComment);
-commentRouter.get('/:drawId', commentController.findAllComments);
+commentRouter.get('/:drawId', tokenMiddleware, commentController.findAllComments);
 
 export default commentRouter;
