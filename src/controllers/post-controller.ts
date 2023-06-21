@@ -2,23 +2,26 @@ import chalk from 'chalk';
 
 import { Request, Response, NextFunction } from 'express';
 
+import erros from '../erros';
 import drawService from '../services/draw-service';
+
+interface CustomFile extends Express.Multer.File {
+  firebaseUrl?: string;
+}
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
   console.log(chalk.cyan('POST /post/upload/draw'));
+  const userId = res.locals.userId;
   const { description } = req.body;
+  const { firebaseUrl } = req.file as CustomFile;
 
-  const post = {
-    description
-  };
-
-  console.log(post);
-  console.log(req.file);
+  if (!firebaseUrl) throw erros.BadRequestError();
 
   try {
-    res.sendStatus(201);
-  } catch (err) {
-    next(err);
+    await drawService.createPost(userId, description, firebaseUrl);
+    res.status(200).send();
+  } catch (error) {
+    next(error);
   }
 };
 

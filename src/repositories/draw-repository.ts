@@ -1,6 +1,16 @@
 import { DrawingType } from '../@types';
 import prisma from '../configs/database.connection';
 
+const createPost = async (userId: number, description: string, firebaseUrl: string) => {
+  await prisma.drawings.create({
+    data: {
+      user_id: userId,
+      description: description,
+      drawing_image: firebaseUrl
+    }
+  });
+};
+
 const findAllDraws = async (): Promise<DrawingType[]> => {
   const drawings = await prisma.drawings.findMany({
     select: {
@@ -172,6 +182,7 @@ const deletePost = async (drawId: number) => {
 };
 
 export default {
+  createPost,
   findAllDraws,
   findDrawById,
   findDrawingsFriends,

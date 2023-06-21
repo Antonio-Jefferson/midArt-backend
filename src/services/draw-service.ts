@@ -1,6 +1,10 @@
 import erros from '../erros';
 import drawRepository from '../repositories/draw-repository';
 
+const createPost = async (userId: number, description: string, firebaseUrl: string) => {
+  await drawRepository.createPost(userId, description, firebaseUrl);
+};
+
 const findAllDraws = async () => {
   const draws = await drawRepository.findAllDraws();
   return draws;
@@ -27,6 +31,7 @@ const deletePost = async (userId: number, drawId: number) => {
 };
 
 export default {
+  createPost,
   findAllDraws,
   findDrawingsFriends,
   findDrawingsChallenges,
